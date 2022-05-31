@@ -1,0 +1,67 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: norhu1130 <norhu1130@naver.com>
+Date: Tue, 31 May 2022 22:30:00 +0900
+Subject: [PATCH] Fix Tiny Remapper
+
+
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
+index ebfaa8d5de5b905bd2dd7778728b8c9939d01252..94ddada6d8e54caad1709e3fe1a630b29897a687 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
+@@ -127,7 +127,7 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+             return s.toLowerCase(Locale.ROOT);
+         }, "default"));
+         // Paper start - Configurable rcon ip
+-        final String rconIp = this.getStringRaw("rcon.ip");
++        final String rconIp = this.getSettingIfExists("rcon.ip");
+         this.rconIp = rconIp == null ? this.serverIp : rconIp;
+         // Paper end
+     }
+diff --git a/src/main/java/net/minecraft/server/dedicated/Settings.java b/src/main/java/net/minecraft/server/dedicated/Settings.java
+index aafa84578c7fb25feeee043259f9c056929ca008..79c65629890c9ebafca55b7022d37bb7853fdd14 100644
+--- a/src/main/java/net/minecraft/server/dedicated/Settings.java
++++ b/src/main/java/net/minecraft/server/dedicated/Settings.java
+@@ -34,7 +34,7 @@ public abstract class Settings<T extends Settings<T>> {
+     }
+ 
+     private String getOverride(String name, String value) {
+-        if ((this.options != null) && (this.options.has(name)) && !name.equals( "online-mode")) { // Spigot
++        if ((this.options != null) && (this.options.has(name))) { // Spigot
+             return String.valueOf(this.options.valueOf(name));
+         }
+ 
+@@ -163,13 +163,13 @@ public abstract class Settings<T extends Settings<T>> {
+     }
+ 
+     @Nullable
+-    public String getStringRaw(String key) {
+-        return (String) this.getOverride(key, this.properties.getProperty(key)); // CraftBukkit
++    public String getSettingIfExists(String key) {
++        return this.getOverride(key, this.properties.getProperty(key)); // CraftBukkit
+     }
+ 
+     @Nullable
+     protected <V> V getLegacy(String key, Function<String, V> stringifier) {
+-        String s1 = this.getStringRaw(key);
++        String s1 = this.getSettingIfExists(key);
+ 
+         if (s1 == null) {
+             return null;
+@@ -180,7 +180,7 @@ public abstract class Settings<T extends Settings<T>> {
+     }
+ 
+     protected <V> V get(String key, Function<String, V> parser, Function<V, String> stringifier, V fallback) {
+-        String s1 = this.getStringRaw(key);
++        String s1 = this.getSettingIfExists(key);
+         V v1 = MoreObjects.firstNonNull(s1 != null ? parser.apply(s1) : null, fallback);
+ 
+         this.properties.put(key, stringifier.apply(v1));
+@@ -188,7 +188,7 @@ public abstract class Settings<T extends Settings<T>> {
+     }
+ 
+     protected <V> Settings<T>.MutableValue<V> getMutable(String key, Function<String, V> parser, Function<V, String> stringifier, V fallback) {
+-        String s1 = this.getStringRaw(key);
++        String s1 = this.getSettingIfExists(key);
+         V v1 = MoreObjects.firstNonNull(s1 != null ? parser.apply(s1) : null, fallback);
+ 
+         this.properties.put(key, stringifier.apply(v1));

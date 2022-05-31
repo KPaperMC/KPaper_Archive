@@ -1,0 +1,275 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: norhu1130 <norhu1130@naver.com>
+Date: Tue, 31 May 2022 22:25:40 +0900
+Subject: [PATCH] Kor Lang
+
+
+diff --git a/src/main/java/net/minecraft/server/Main.java b/src/main/java/net/minecraft/server/Main.java
+index 1e0d261439255091a6f61485c0747231fbd5b1db..70fbbffc9e9dc3b956cca387c39b643e37851510 100644
+--- a/src/main/java/net/minecraft/server/Main.java
++++ b/src/main/java/net/minecraft/server/Main.java
+@@ -120,7 +120,7 @@ public class Main {
+             Eula eula = new Eula(path1);
+ 
+             if (optionset.has("initSettings")) { // CraftBukkit
+-                Main.LOGGER.info("Initialized '{}' and '{}'", path.toAbsolutePath(), path1.toAbsolutePath());
++                Main.LOGGER.info("초기화 됨 : '{}' and '{}'", path.toAbsolutePath(), path1.toAbsolutePath());
+                 return;
+             }
+ 
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index 6f80bd67c62cf7b88f031cebb555658456ba623b..54916e588b538d387428e7e24ff6c4100d2df54f 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -438,7 +438,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+             try {
+                 JvmProfiler.INSTANCE.stop();
+             } catch (Throwable throwable) {
+-                MinecraftServer.LOGGER.warn("Failed to stop JFR profiling", throwable);
++                MinecraftServer.LOGGER.warn("JFR 프로파일링 실패", throwable);
+             }
+         }
+ 
+@@ -791,7 +791,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+         // CraftBukkit end
+         if (worldserver.getWorld().getKeepSpawnInMemory()) { // Paper
+ 
+-        MinecraftServer.LOGGER.info("Preparing start region for dimension {}", worldserver.dimension().location());
++        MinecraftServer.LOGGER.info("치원 시작 영역 준비 중 : {}", worldserver.dimension().location());
+         BlockPos blockposition = worldserver.getSharedSpawnPos();
+ 
+         worldloadlistener.updateSpawnPos(new ChunkPos(blockposition));
+@@ -854,7 +854,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+             try {
+                 this.setResourcePack("level://" + URLEncoder.encode(s, StandardCharsets.UTF_8.toString()) + "/resources.zip", "");
+             } catch (UnsupportedEncodingException unsupportedencodingexception) {
+-                MinecraftServer.LOGGER.warn("Something went wrong url encoding {}", s);
++                MinecraftServer.LOGGER.warn("리소스팩 URL 인코딩 실패 {}", s);
+             }
+         }
+ 
+@@ -881,7 +881,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+             ServerLevel worldserver = (ServerLevel) iterator.next();
+ 
+             if (!suppressLogs) {
+-                MinecraftServer.LOGGER.info("Saving chunks for level '{}'/{}", worldserver, worldserver.dimension().location());
++                MinecraftServer.LOGGER.info("청크 저장 중 : '{}'/{}", worldserver, worldserver.dimension().location());
+             }
+ 
+             worldserver.save((ProgressListener) null, flush, worldserver.noSave && !force);
+@@ -903,10 +903,10 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+             while (iterator1.hasNext()) {
+                 ServerLevel worldserver2 = (ServerLevel) iterator1.next();
+ 
+-                MinecraftServer.LOGGER.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", worldserver2.getChunkSource().chunkMap.getStorageName());
++                MinecraftServer.LOGGER.info("ThreadedAnvilChunkStorage ({}): 전체 청크 저장 완료", worldserver2.getChunkSource().chunkMap.getStorageName());
+             }
+ 
+-            MinecraftServer.LOGGER.info("ThreadedAnvilChunkStorage: All dimensions are saved");
++            MinecraftServer.LOGGER.info("ThreadedAnvilChunkStorage: 모든 차원 저장 완료");
+         }
+ 
+         return flag3;
+@@ -954,7 +954,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+         shutdownThread = Thread.currentThread();
+         org.spigotmc.WatchdogThread.doStop(); // Paper
+         if (!isSameThread()) {
+-            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO PAPER)");
++            MinecraftServer.LOGGER.info("메인 스레드 종료 중 (스레드 데스 메시지를 무시하세요! - 스레드 데스 메시지를 KPaper팀에 보고하지 마세요.)");
+             while (this.getRunningThread().isAlive()) {
+                 this.getRunningThread().stop();
+                 try {
+@@ -964,7 +964,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+         }
+         // Paper end
+         // CraftBukkit end
+-        MinecraftServer.LOGGER.info("Stopping server");
++        MinecraftServer.LOGGER.info("서버 종료 중");
+         MinecraftTimings.stopServer(); // Paper
+         // CraftBukkit start
+         if (this.server != null) {
+@@ -978,13 +978,13 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+ 
+         this.isSaving = true;
+         if (this.playerList != null) {
+-            MinecraftServer.LOGGER.info("Saving players");
++            MinecraftServer.LOGGER.info("플레이어 저장 중");
+             this.playerList.saveAll();
+             this.playerList.removeAll(this.isRestarting); // Paper
+             try { Thread.sleep(100); } catch (InterruptedException ex) {} // CraftBukkit - SPIGOT-625 - give server at least a chance to send packets
+         }
+ 
+-        MinecraftServer.LOGGER.info("Saving worlds");
++        MinecraftServer.LOGGER.info("월드 저장 중");
+         Iterator iterator = this.getAllLevels().iterator();
+ 
+         ServerLevel worldserver;
+@@ -1042,23 +1042,23 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+         try {
+             this.storageSource.close();
+         } catch (IOException ioexception1) {
+-            MinecraftServer.LOGGER.error("Failed to unlock level {}", this.storageSource.getLevelId(), ioexception1);
++            MinecraftServer.LOGGER.error("Level 잠금 해제 실패. {}", this.storageSource.getLevelId(), ioexception1);
+         }
+         // Spigot start
+         MCUtil.asyncExecutor.shutdown(); // Paper
+         try { MCUtil.asyncExecutor.awaitTermination(30, java.util.concurrent.TimeUnit.SECONDS); // Paper
+         } catch (java.lang.InterruptedException ignored) {} // Paper
+         if (org.spigotmc.SpigotConfig.saveUserCacheOnStopOnly) {
+-            MinecraftServer.LOGGER.info("Saving usercache.json");
++            MinecraftServer.LOGGER.info("유저캐시 저장 중..");
+             this.getProfileCache().save(false); // Paper
+         }
+         // Spigot end
+         // Paper start - move final shutdown items here
+-        LOGGER.info("Flushing Chunk IO");
++        LOGGER.info("Chunk IO 닫는 중..");
+         com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
+-        LOGGER.info("Closing Thread Pool");
++        LOGGER.info("쓰레드 풀 종료 중");
+         Util.shutdownExecutors(); // Paper
+-        LOGGER.info("Closing Server");
++        LOGGER.info("서버를 닫는 중..");
+         try {
+             net.minecrell.terminalconsole.TerminalConsoleAppender.close(); // Paper - Use TerminalConsoleAppender
+         } catch (Exception e) {
+@@ -1175,7 +1175,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+                 // anything at 3+ won't be caught here but also will trip watchdog....
+                 // tasks are default scheduled at -1 + delay, and first tick will tick at 1
+                 String doneTime = String.format(java.util.Locale.ROOT, "%.3fs", (double) (Util.getNanos() - serverStartTime) / 1.0E9D);
+-                LOGGER.info("Done ({})! For help, type \"help\"", doneTime);
++                LOGGER.info("서버가 켜졌어요! ({})!", doneTime);
+                 // Paper end
+ 
+                 org.spigotmc.WatchdogThread.tick(); // Paper
+@@ -1190,7 +1190,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+                         long j = i / 50L;
+ 
+                         if (this.server.getWarnOnOverload()) // CraftBukkit
+-                            MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", i, j);
++                            MinecraftServer.LOGGER.warn("유지할 수 없어요! 과부화 상태인가요? {}ms 또는 {} 틱이 밀렸어요", i, j);
+                         this.nextTickTime += j * 50L;
+                         this.lastOverloadWarning = this.nextTickTime;
+                     }
+@@ -1775,7 +1775,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+     }
+ 
+     protected void initializeKeyPair() {
+-        MinecraftServer.LOGGER.info("Generating keypair");
++        MinecraftServer.LOGGER.info("키쌍 생성 중");
+ 
+         try {
+             this.keyPair = Crypt.generateKeyPair();
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+index 257c94f7c1cb00c9a91ab82e311dfd8eca29c538..fdece7161a741709cee66cc297dc203e71e1a8f1 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -226,7 +226,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         try {
+             com.destroystokyo.paper.PaperConfig.init((java.io.File) options.valueOf("paper-settings"));
+         } catch (Exception e) {
+-            DedicatedServer.LOGGER.error("Unable to load server configuration", e);
++            DedicatedServer.LOGGER.error("페이퍼 설정 파일 로드 실패", e);
+             return false;
+         }
+         thread.start(); // Paper - start console thread after MinecraftServer.console & PaperConfig are initialized
+@@ -272,14 +272,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         // Paper end
+ 
+         this.initializeKeyPair();
+-        DedicatedServer.LOGGER.info("Starting Minecraft server on {}:{}", this.getLocalIp().isEmpty() ? "*" : this.getLocalIp(), this.getPort());
++        DedicatedServer.LOGGER.info("서버를 {}:{}에서 시작 하는 중...", this.getLocalIp().isEmpty() ? "*" : this.getLocalIp(), this.getPort());
+ 
+         try {
+             this.getConnection().bind(bindAddress); // Paper - Unix domain socket support
+         } catch (IOException ioexception) {
+-            DedicatedServer.LOGGER.warn("**** FAILED TO BIND TO PORT!");
+-            DedicatedServer.LOGGER.warn("The exception was: {}", ioexception.toString());
+-            DedicatedServer.LOGGER.warn("Perhaps a server is already running on that port?");
++            DedicatedServer.LOGGER.warn("**** 서버 포트 사용 살패!");
++            DedicatedServer.LOGGER.warn("오류 : {}", ioexception.toString());
++            DedicatedServer.LOGGER.warn("서버가 이미 해당 포트에서 작동하고 있나요?");
+             return false;
+         }
+ 
+@@ -323,12 +323,12 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+             }
+ 
+             if (dedicatedserverproperties.enableQuery) {
+-                DedicatedServer.LOGGER.info("Starting GS4 status listener");
++                DedicatedServer.LOGGER.info("GS4 상태 리스너 시작 중");
+                 this.queryThreadGs4 = QueryThreadGs4.create(this);
+             }
+ 
+             if (dedicatedserverproperties.enableRcon) {
+-                DedicatedServer.LOGGER.info("Starting remote control listener");
++                DedicatedServer.LOGGER.info("원격 제어 리스너 시작 중");
+                 this.rconThread = RconThread.create(this);
+                 this.remoteConsole = new org.bukkit.craftbukkit.command.CraftRemoteConsoleCommandSender(this.rconConsoleSource); // CraftBukkit
+             }
+@@ -345,7 +345,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+             Items.AIR.fillItemCategory(CreativeModeTab.TAB_SEARCH, NonNullList.create());
+             if (dedicatedserverproperties.enableJmxMonitoring) {
+                 MinecraftServerStatistics.registerJmxMonitoring(this);
+-                DedicatedServer.LOGGER.info("JMX monitoring enabled");
++                DedicatedServer.LOGGER.info("JMX 모니터링 활성화 됨.");
+             }
+ 
+             return true;
+diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
+index befcb501b4b1b6330bf3cd53e00e30b01efade6f..d03f627b2449643ae1db1ee578ef9635f9b10ac4 100644
+--- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
+@@ -114,7 +114,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
+ 
+     public void disconnect(Component reason) {
+         try {
+-            ServerLoginPacketListenerImpl.LOGGER.info("Disconnecting {}: {}", this.getUserName(), reason.getString());
++            ServerLoginPacketListenerImpl.LOGGER.info("연결 해제 중 {}: {}", this.getUserName(), reason.getString());
+             this.connection.send(new ClientboundLoginDisconnectPacket(reason));
+             this.connection.disconnect(reason);
+         } catch (Exception exception) {
+@@ -217,7 +217,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
+ 
+     @Override
+     public void onDisconnect(Component reason) {
+-        ServerLoginPacketListenerImpl.LOGGER.info("{} lost connection: {}", this.getUserName(), reason.getString());
++        ServerLoginPacketListenerImpl.LOGGER.info("{} 연결 상실: {}", this.getUserName(), reason.getString());
+     }
+ 
+     public String getUserName() {
+diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
+index 188c68d4ae46bc05c6d9c901b5c6ab883fa05ea4..27037ef6531e290de45f7921db766673e5a95e1e 100644
+--- a/src/main/java/net/minecraft/server/players/PlayerList.java
++++ b/src/main/java/net/minecraft/server/players/PlayerList.java
+@@ -273,7 +273,7 @@ public abstract class PlayerList {
+         // Spigot - view distance
+         playerconnection.send(new ClientboundLoginPacket(player.getId(), worlddata.isHardcore(), player.gameMode.getGameModeForPlayer(), player.gameMode.getPreviousGameModeForPlayer(), this.server.levelKeys(), this.registryHolder, worldserver1.dimensionTypeRegistration(), worldserver1.dimension(), BiomeManager.obfuscateSeed(worldserver1.getSeed()), this.getMaxPlayers(), worldserver1.getChunkSource().chunkMap.playerChunkManager.getTargetSendDistance(), worldserver1.getChunkSource().chunkMap.playerChunkManager.getTargetTickViewDistance(), flag1, !flag, worldserver1.isDebug(), worldserver1.isFlat())); // Paper - replace old player chunk management
+         player.getBukkitEntity().sendSupportedChannels(); // CraftBukkit
+-        playerconnection.send(new ClientboundCustomPayloadPacket(ClientboundCustomPayloadPacket.BRAND, (new FriendlyByteBuf(Unpooled.buffer())).writeUtf(this.getServer().getServerModName())));
++        playerconnection.send(new ClientboundCustomPayloadPacket(ClientboundCustomPayloadPacket.BRAND, (new FriendlyByteBuf(Unpooled.buffer())).writeUtf("§c§lK§bP§6a§ep§de§ar§r")));
+         playerconnection.send(new ClientboundChangeDifficultyPacket(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
+         playerconnection.send(new ClientboundPlayerAbilitiesPacket(player.getAbilities()));
+         playerconnection.send(new ClientboundSetCarriedItemPacket(player.getInventory().selected));
+@@ -494,7 +494,7 @@ public abstract class PlayerList {
+         }
+         // Paper end
+         // CraftBukkit - Moved from above, added world
+-        PlayerList.LOGGER.info("{}[{}] logged in with entity id {} at ([{}]{}, {}, {})", player.getName().getString(), s1, player.getId(), worldserver1.serverLevelData.getLevelName(), player.getX(), player.getY(), player.getZ());
++        PlayerList.LOGGER.info("{}[{}] 로그인 됨! 엔티티 ID : {} 위치 : ([{}]{}, {}, {})", player.getName().getString(), s1, player.getId(), worldserver1.serverLevelData.getLevelName(), player.getX(), player.getY(), player.getZ());
+     }
+ 
+     public void updateEntireScoreboard(ServerScoreboard scoreboard, ServerPlayer player) {
+diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
+index d509187ca63963fdd7f1a44d89d2aa1a1b1ce3bd..207a361b6ee3dab1a5aa3d5bdd0b47b75f47e2f8 100644
+--- a/src/main/java/org/spigotmc/SpigotConfig.java
++++ b/src/main/java/org/spigotmc/SpigotConfig.java
+@@ -290,7 +290,7 @@ public class SpigotConfig
+     private static void playerSample()
+     {
+         SpigotConfig.playerSample = Math.max( SpigotConfig.getInt( "settings.sample-count", 12 ), 0 ); // Paper - Avoid negative counts
+-        Bukkit.getLogger().log( Level.INFO, "Server Ping Player Sample Count: {0}", playerSample ); // Paper - Use logger
++        // Bukkit.getLogger().log( Level.INFO, "Server Ping Player Sample Count: {0}", playerSample ); // KPaper - Don't Log Sample Count// Paper - Use logger
+     }
+ 
+     public static int playerShuffle;
