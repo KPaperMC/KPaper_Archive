@@ -5,7 +5,7 @@ Subject: [PATCH] Version Fetcher
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index bf42969859545a8a520923ef1836ffa4a5cc24a0..7e343e08e0e990d03e2c894fdf9d2ae01213bcfc 100644
+index bf42969859545a8a520923ef1836ffa4a5cc24a0..9fd47e2cc68df259028ea827696dd6e43eac7e1b 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 @@ -19,8 +19,8 @@ import java.util.stream.StreamSupport;
@@ -67,7 +67,7 @@ index bf42969859545a8a520923ef1836ffa4a5cc24a0..7e343e08e0e990d03e2c894fdf9d2ae0
                                          .clickEvent(ClickEvent.openUrl(DOWNLOAD_PAGE))));
          }
      }
-@@ -85,12 +85,10 @@ public class PaperVersionFetcher implements VersionFetcher {
+@@ -85,15 +85,10 @@ public class PaperVersionFetcher implements VersionFetcher {
          if (siteApiVersion == null) { return -1; }
          try {
              try (BufferedReader reader = Resources.asCharSource(
@@ -78,11 +78,14 @@ index bf42969859545a8a520923ef1836ffa4a5cc24a0..7e343e08e0e990d03e2c894fdf9d2ae0
 -                JsonObject json = new Gson().fromJson(reader, JsonObject.class);
 -                JsonArray builds = json.getAsJsonArray("builds");
 -                int latest = StreamSupport.stream(builds.spliterator(), false)
-+                int latest = StreamSupport.stream(reader, false)
-                     .mapToInt(e -> e.getAsInt())
-                     .max()
-                     .getAsInt();
-@@ -144,6 +142,6 @@ public class PaperVersionFetcher implements VersionFetcher {
+-                    .mapToInt(e -> e.getAsInt())
+-                    .max()
+-                    .getAsInt();
++                int latest = reader.read();
+                 return latest - jenkinsBuild;
+             } catch (JsonSyntaxException ex) {
+                 ex.printStackTrace();
+@@ -144,6 +139,6 @@ public class PaperVersionFetcher implements VersionFetcher {
              return null;
          }
  
