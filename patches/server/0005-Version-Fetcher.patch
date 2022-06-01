@@ -5,7 +5,7 @@ Subject: [PATCH] Version Fetcher
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index bf42969859545a8a520923ef1836ffa4a5cc24a0..c3b555d9221bd6320ac20b5268210a2516398686 100644
+index bf42969859545a8a520923ef1836ffa4a5cc24a0..5114776bdd0909bd88dfe8ee591785b305713b0d 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 @@ -19,8 +19,8 @@ import java.util.stream.StreamSupport;
@@ -82,7 +82,7 @@ index bf42969859545a8a520923ef1836ffa4a5cc24a0..c3b555d9221bd6320ac20b5268210a25
 -                    .max()
 -                    .getAsInt();
 +                int latest = reader.read();
-+                org.bukkit.Bukkit.getLogger().warning(latest)
++                org.bukkit.Bukkit.getLogger().warning(latest);
                  return latest - jenkinsBuild;
              } catch (JsonSyntaxException ex) {
                  ex.printStackTrace();
