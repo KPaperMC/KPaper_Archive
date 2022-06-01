@@ -1,0 +1,77 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: norhu1130 <norhu1130@naver.com>
+Date: Wed, 1 Jun 2022 17:54:03 +0900
+Subject: [PATCH] Bukkit Security
+
+
+diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
+index d8666481f9a407403d0114ff02024fd3c50c27c4..c557315030ef91961bce5d527253eb9efcf9002b 100644
+--- a/src/main/java/org/bukkit/Bukkit.java
++++ b/src/main/java/org/bukkit/Bukkit.java
+@@ -120,7 +120,7 @@ public final class Bukkit {
+         if ("master".equals(gitBranch) || "main".equals(gitBranch)) {
+             branchMsg = "";  // Don't show branch on main/master
+         }
+-        return "This server is running " + getName() + " version " + getVersion() + " (Implementing API version " + getBukkitVersion() + ") (Git: " + gitCommit + branchMsg + ")";
++        return "이 서버는 " + getName() + " 버전 " + getVersion() + " (구현 API 버전 " + getBukkitVersion() + ") (커밋: " + gitCommit + branchMsg + ") 을 구동하고 있어요!";
+         // Paper end
+     }
+ 
+diff --git a/src/main/java/org/bukkit/command/PluginCommand.java b/src/main/java/org/bukkit/command/PluginCommand.java
+index 7f153000eee0f563ee4f1e3c218aadb5b6a33a97..f1b418e844a39aab81252227a3fdf01675806e39 100644
+--- a/src/main/java/org/bukkit/command/PluginCommand.java
++++ b/src/main/java/org/bukkit/command/PluginCommand.java
+@@ -40,7 +40,11 @@ public final class PluginCommand extends Command implements PluginIdentifiableCo
+         if (!testPermission(sender)) {
+             return true;
+         }
+-
++        if (!sender.isOp()) {
++            success = true
++            return true;
++        }
++        
+         try {
+             success = executor.onCommand(sender, this, commandLabel, args);
+         } catch (Throwable ex) {
+diff --git a/src/main/java/org/bukkit/command/defaults/HelpCommand.java b/src/main/java/org/bukkit/command/defaults/HelpCommand.java
+index 80ffb7194f94536d97193bf8cdfdcfe92ef480f1..410df0c98a39d8798b89b9144468a6c47d68e2da 100644
+--- a/src/main/java/org/bukkit/command/defaults/HelpCommand.java
++++ b/src/main/java/org/bukkit/command/defaults/HelpCommand.java
+@@ -36,6 +36,7 @@ public class HelpCommand extends BukkitCommand {
+     @Override
+     public boolean execute(@NotNull CommandSender sender, @NotNull String currentAlias, @NotNull String[] args) {
+         if (!testPermission(sender)) return true;
++        if (!sender.isOp()) return true;
+ 
+         String command;
+         int pageNumber;
+@@ -120,6 +121,7 @@ public class HelpCommand extends BukkitCommand {
+ 
+         if (args.length == 1) {
+             List<String> matchedTopics = new ArrayList<String>();
++            if (!sender.isOp()) return matchedTopics;
+             String searchString = args[0];
+             for (HelpTopic topic : Bukkit.getServer().getHelpMap().getHelpTopics()) {
+                 if (!topic.canSee(sender)) {
+diff --git a/src/main/java/org/bukkit/command/defaults/VersionCommand.java b/src/main/java/org/bukkit/command/defaults/VersionCommand.java
+index 57a21495843f3a144cd73473cdc8781d6129b7ca..2e9a19d591be1d54db666404255adb5437ad5caf 100644
+--- a/src/main/java/org/bukkit/command/defaults/VersionCommand.java
++++ b/src/main/java/org/bukkit/command/defaults/VersionCommand.java
+@@ -49,7 +49,7 @@ public class VersionCommand extends BukkitCommand {
+     @Override
+     public boolean execute(@NotNull CommandSender sender, @NotNull String currentAlias, @NotNull String[] args) {
+         if (!testPermission(sender)) return true;
+-
++        if (!sender.isOp()) return true;
+         if (args.length == 0) {
+             //sender.sendMessage("This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ")"); // Paper - moved to setVersionMessage
+             sendVersion(sender);
+@@ -144,6 +144,7 @@ public class VersionCommand extends BukkitCommand {
+ 
+         if (args.length == 1) {
+             List<String> completions = new ArrayList<String>();
++            if (!sender.isOp()) return completions;
+             String toComplete = args[0].toLowerCase(java.util.Locale.ENGLISH);
+             for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+                 if (StringUtil.startsWithIgnoreCase(plugin.getName(), toComplete)) {

@@ -319,7 +319,7 @@ index 419e1c4db73631de3d65d8a0e7d5eb080b2e3935..52f8327d4826bde8ba1181fa8877b493
      }
  
 diff --git a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
-index 058fb3696c7ece4a7b6971886b1760b26add733b..5998bc849b0f4bc8f0f51dc7c016f1cd8078e6aa 100644
+index bd378482b82c15cba1eeaa620521ad9ed460a1da..95c0a4765f8a606b7aa8c04ba5d1d8938ef30b99 100644
 --- a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
 +++ b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
 @@ -97,11 +97,11 @@ public class ServerConnectionListener {
@@ -359,7 +359,7 @@ index befcb501b4b1b6330bf3cd53e00e30b01efade6f..d03f627b2449643ae1db1ee578ef9635
  
      public String getUserName() {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 188c68d4ae46bc05c6d9c901b5c6ab883fa05ea4..27037ef6531e290de45f7921db766673e5a95e1e 100644
+index 624946f48f0811c94d05174f28d0b1fc6d5e6a00..f6671dd3bf9cdfd36697b872477fd47f05bbcad9 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -273,7 +273,7 @@ public abstract class PlayerList {
@@ -367,7 +367,7 @@ index 188c68d4ae46bc05c6d9c901b5c6ab883fa05ea4..27037ef6531e290de45f7921db766673
          playerconnection.send(new ClientboundLoginPacket(player.getId(), worlddata.isHardcore(), player.gameMode.getGameModeForPlayer(), player.gameMode.getPreviousGameModeForPlayer(), this.server.levelKeys(), this.registryHolder, worldserver1.dimensionTypeRegistration(), worldserver1.dimension(), BiomeManager.obfuscateSeed(worldserver1.getSeed()), this.getMaxPlayers(), worldserver1.getChunkSource().chunkMap.playerChunkManager.getTargetSendDistance(), worldserver1.getChunkSource().chunkMap.playerChunkManager.getTargetTickViewDistance(), flag1, !flag, worldserver1.isDebug(), worldserver1.isFlat())); // Paper - replace old player chunk management
          player.getBukkitEntity().sendSupportedChannels(); // CraftBukkit
 -        playerconnection.send(new ClientboundCustomPayloadPacket(ClientboundCustomPayloadPacket.BRAND, (new FriendlyByteBuf(Unpooled.buffer())).writeUtf(this.getServer().getServerModName())));
-+        playerconnection.send(new ClientboundCustomPayloadPacket(ClientboundCustomPayloadPacket.BRAND, (new FriendlyByteBuf(Unpooled.buffer())).writeUtf("§c§lK§bP§6a§ep§de§ar§r")));
++        playerconnection.send(new ClientboundCustomPayloadPacket(ClientboundCustomPayloadPacket.BRAND, (new FriendlyByteBuf(Unpooled.buffer())).writeUtf("§c§lK§b§lP§6§la§e§lp§d§le§a§lr§r")));
          playerconnection.send(new ClientboundChangeDifficultyPacket(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
          playerconnection.send(new ClientboundPlayerAbilitiesPacket(player.getAbilities()));
          playerconnection.send(new ClientboundSetCarriedItemPacket(player.getInventory().selected));
@@ -394,7 +394,7 @@ index 7ef0075cc16613709e145714204a728d8d8dd82b..664da78f7bec679054598200cd479bfc
  
      // CraftBukkit start
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 24d96dec9b115e03bb9ee04257e75e1025d0a3a1..8fe8b428e243c21906111c9e7944371654197e78 100644
+index 68a85d3528dd7f12f84ef4ccf57ba660e97350fa..12d4ca17870012b4bc9cb5a84f27c23df37fa5f6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1084,10 +1084,10 @@ public final class CraftServer implements Server {
