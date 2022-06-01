@@ -5,7 +5,7 @@ Subject: [PATCH] Version Fetcher
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index bf42969859545a8a520923ef1836ffa4a5cc24a0..9fd47e2cc68df259028ea827696dd6e43eac7e1b 100644
+index bf42969859545a8a520923ef1836ffa4a5cc24a0..c3b555d9221bd6320ac20b5268210a2516398686 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 @@ -19,8 +19,8 @@ import java.util.stream.StreamSupport;
@@ -67,7 +67,7 @@ index bf42969859545a8a520923ef1836ffa4a5cc24a0..9fd47e2cc68df259028ea827696dd6e4
                                          .clickEvent(ClickEvent.openUrl(DOWNLOAD_PAGE))));
          }
      }
-@@ -85,15 +85,10 @@ public class PaperVersionFetcher implements VersionFetcher {
+@@ -85,15 +85,11 @@ public class PaperVersionFetcher implements VersionFetcher {
          if (siteApiVersion == null) { return -1; }
          try {
              try (BufferedReader reader = Resources.asCharSource(
@@ -82,10 +82,11 @@ index bf42969859545a8a520923ef1836ffa4a5cc24a0..9fd47e2cc68df259028ea827696dd6e4
 -                    .max()
 -                    .getAsInt();
 +                int latest = reader.read();
++                org.bukkit.Bukkit.getLogger().warning(latest)
                  return latest - jenkinsBuild;
              } catch (JsonSyntaxException ex) {
                  ex.printStackTrace();
-@@ -144,6 +139,6 @@ public class PaperVersionFetcher implements VersionFetcher {
+@@ -144,6 +140,6 @@ public class PaperVersionFetcher implements VersionFetcher {
              return null;
          }
  
