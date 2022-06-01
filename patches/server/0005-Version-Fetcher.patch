@@ -1,0 +1,92 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: norhu1130 <norhu1130@naver.com>
+Date: Wed, 1 Jun 2022 14:42:21 +0900
+Subject: [PATCH] Version Fetcher
+
+
+diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+index bf42969859545a8a520923ef1836ffa4a5cc24a0..7e343e08e0e990d03e2c894fdf9d2ae01213bcfc 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
++++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+@@ -19,8 +19,8 @@ import java.util.stream.StreamSupport;
+ 
+ public class PaperVersionFetcher implements VersionFetcher {
+     private static final java.util.regex.Pattern VER_PATTERN = java.util.regex.Pattern.compile("^([0-9\\.]*)\\-.*R"); // R is an anchor, will always give '-R' at end
+-    private static final String GITHUB_BRANCH_NAME = "master";
+-    private static final String DOWNLOAD_PAGE = "https://papermc.io/downloads";
++    private static final String GITHUB_BRANCH_NAME = "main";
++    private static final String DOWNLOAD_PAGE = "http://mc.norhu1130.tech:9080/job/KPaper/";
+     private static @Nullable String mcVer;
+ 
+     @Override
+@@ -31,8 +31,8 @@ public class PaperVersionFetcher implements VersionFetcher {
+     @Nonnull
+     @Override
+     public Component getVersionMessage(@Nonnull String serverVersion) {
+-        String[] parts = serverVersion.substring("git-Paper-".length()).split("[-\\s]");
+-        final Component updateMessage = getUpdateStatusMessage("PaperMC/Paper", GITHUB_BRANCH_NAME, parts[0]);
++        String[] parts = serverVersion.substring("git-KPaper-".length()).split("[-\\s]");
++        final Component updateMessage = getUpdateStatusMessage("KPaperMC/KPaper", GITHUB_BRANCH_NAME, parts[0]);
+         final Component history = getHistory();
+ 
+         return history != null ? TextComponent.ofChildren(updateMessage, Component.newline(), history) : updateMessage;
+@@ -45,9 +45,9 @@ public class PaperVersionFetcher implements VersionFetcher {
+                 String result = matcher.group();
+                 mcVer = result.substring(0, result.length() - 2); // strip 'R' anchor and trailing '-'
+             } else {
+-                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to PaperMC!");
+-                org.bukkit.Bukkit.getLogger().warning("Pattern: " + VER_PATTERN.toString());
+-                org.bukkit.Bukkit.getLogger().warning("Version: " + org.bukkit.Bukkit.getBukkitVersion());
++                org.bukkit.Bukkit.getLogger().warning("패턴 불일치, KPaper팀에게 제보해주세요!");
++                org.bukkit.Bukkit.getLogger().warning("패턴: " + VER_PATTERN.toString());
++                org.bukkit.Bukkit.getLogger().warning("버전: " + org.bukkit.Bukkit.getBukkitVersion());
+             }
+         }
+ 
+@@ -66,17 +66,17 @@ public class PaperVersionFetcher implements VersionFetcher {
+ 
+         switch (distance) {
+             case -1:
+-                return Component.text("Error obtaining version information", NamedTextColor.YELLOW);
++                return Component.text("버전 정보를 알수 없어요.", NamedTextColor.YELLOW);
+             case 0:
+-                return Component.text("You are running the latest version", NamedTextColor.GREEN);
++                return Component.text("최신버전을 실행하고 있어요.", NamedTextColor.GREEN);
+             case -2:
+-                return Component.text("Unknown version", NamedTextColor.YELLOW);
++                return Component.text("알수없는 버전이에요.", NamedTextColor.YELLOW);
+             default:
+-                return Component.text("You are " + distance + " version(s) behind", NamedTextColor.YELLOW)
++                return Component.text("현재 " + distance + " 개의 버전이 밀렸어요.", NamedTextColor.YELLOW)
+                         .append(Component.newline())
+-                        .append(Component.text("Download the new version at: ")
++                        .append(Component.text("새 버전을 여기서 다운로드하세요. : ")
+                                 .append(Component.text(DOWNLOAD_PAGE, NamedTextColor.GOLD)
+-                                        .hoverEvent(Component.text("Click to open", NamedTextColor.WHITE))
++                                        .hoverEvent(Component.text("클릭해서 여세요!", NamedTextColor.WHITE))
+                                         .clickEvent(ClickEvent.openUrl(DOWNLOAD_PAGE))));
+         }
+     }
+@@ -85,12 +85,10 @@ public class PaperVersionFetcher implements VersionFetcher {
+         if (siteApiVersion == null) { return -1; }
+         try {
+             try (BufferedReader reader = Resources.asCharSource(
+-                new URL("https://api.papermc.io/v2/projects/paper/versions/" + siteApiVersion),
++                new URL("http://mc.norhu1130.tech:9080/job/KPaper/lastSuccessfulBuild/buildNumber"),
+                 Charsets.UTF_8
+             ).openBufferedStream()) {
+-                JsonObject json = new Gson().fromJson(reader, JsonObject.class);
+-                JsonArray builds = json.getAsJsonArray("builds");
+-                int latest = StreamSupport.stream(builds.spliterator(), false)
++                int latest = StreamSupport.stream(reader, false)
+                     .mapToInt(e -> e.getAsInt())
+                     .max()
+                     .getAsInt();
+@@ -144,6 +142,6 @@ public class PaperVersionFetcher implements VersionFetcher {
+             return null;
+         }
+ 
+-        return Component.text("Previous version: " + oldVersion, NamedTextColor.GRAY, TextDecoration.ITALIC);
++        return Component.text("이전 버전: " + oldVersion, NamedTextColor.GRAY, TextDecoration.ITALIC);
+     }
+ }
