@@ -14,3 +14,6 @@
 ## 🔧 설치
 1. [KPaper.jar](http://mc.norhu1130.tech:9080/job/KPaper/lastSuccessfulBuild/artifact/KPaper.jar/)를 설치해요.
 2. 이제 KPaper.jar를 실행하면 끝이에요!
+
+## 라이센스 고지
+- Version Fetch는 [Pufferfish](https://github.com/pufferfish-gg/Pufferfish/blob/ver/1.18/patches/server/0001-Pufferfish-branding.patch) 일부를 수정했습니다.
