@@ -18,7 +18,7 @@ index 1e0d261439255091a6f61485c0747231fbd5b1db..70fbbffc9e9dc3b956cca387c39b643e
              }
  
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 6f80bd67c62cf7b88f031cebb555658456ba623b..54916e588b538d387428e7e24ff6c4100d2df54f 100644
+index 6f80bd67c62cf7b88f031cebb555658456ba623b..5f3b3fc4f2b7e3d6a8c2bb08f056d77afca10c06 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -438,7 +438,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -133,7 +133,15 @@ index 6f80bd67c62cf7b88f031cebb555658456ba623b..54916e588b538d387428e7e24ff6c410
          try {
              net.minecrell.terminalconsole.TerminalConsoleAppender.close(); // Paper - Use TerminalConsoleAppender
          } catch (Exception e) {
-@@ -1175,7 +1175,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1168,14 +1168,14 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+ 
+                 // Spigot start
+                 // Paper start - move done tracking
+-                LOGGER.info("Running delayed init tasks");
++                LOGGER.info("지연된 초기화 작업 실행");
+                 this.server.getScheduler().mainThreadHeartbeat(this.tickCount); // run all 1 tick delay tasks during init,
+                 // this is going to be the first thing the tick process does anyways, so move done and run it after
+                 // everything is init before watchdog tick.
                  // anything at 3+ won't be caught here but also will trip watchdog....
                  // tasks are default scheduled at -1 + delay, and first tick will tick at 1
                  String doneTime = String.format(java.util.Locale.ROOT, "%.3fs", (double) (Util.getNanos() - serverStartTime) / 1.0E9D);
@@ -160,10 +168,40 @@ index 6f80bd67c62cf7b88f031cebb555658456ba623b..54916e588b538d387428e7e24ff6c410
  
          try {
              this.keyPair = Crypt.generateKeyPair();
+@@ -2118,7 +2118,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+                 String s1 = resourcepackloader.getId();
+ 
+                 if (!dataPackSettings.getDisabled().contains(s1) && !set.contains(s1)) {
+-                    MinecraftServer.LOGGER.info("Found new data pack {}, loading it automatically", s1);
++                    MinecraftServer.LOGGER.info("새 데이터팩 {}을 찾았어요, 자동으로 로드할게요.", s1);
+                     set.add(s1);
+                 }
+             }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 257c94f7c1cb00c9a91ab82e311dfd8eca29c538..fdece7161a741709cee66cc297dc203e71e1a8f1 100644
+index 257c94f7c1cb00c9a91ab82e311dfd8eca29c538..23cb9b96d69d8d1d5a5f66547f807ee576fa9040 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -186,9 +186,9 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         thread.setDaemon(true);
+         thread.setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(DedicatedServer.LOGGER));
+         // thread.start(); // Paper - moved down
+-        DedicatedServer.LOGGER.info("Starting minecraft server version {}", SharedConstants.getCurrentVersion().getName());
++        DedicatedServer.LOGGER.info("마인크래프트 서버 버전 {}을 시작 하는 중..", SharedConstants.getCurrentVersion().getName());
+         if (Runtime.getRuntime().maxMemory() / 1024L / 1024L < 512L) {
+-            DedicatedServer.LOGGER.warn("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
++            DedicatedServer.LOGGER.warn("서버를 실행하려면 램이 더 필요해요. 1GB 이상의 메모리를 주세요.");
+         }
+ 
+         // Paper start - detect running as root
+@@ -201,7 +201,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         }
+         // Paper end
+ 
+-        DedicatedServer.LOGGER.info("Loading properties");
++        DedicatedServer.LOGGER.info("서버 설정 로딩 중..");
+         DedicatedServerProperties dedicatedserverproperties = this.settings.getProperties();
+ 
+         if (this.isSingleplayer()) {
 @@ -226,7 +226,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          try {
              com.destroystokyo.paper.PaperConfig.init((java.io.File) options.valueOf("paper-settings"));
@@ -173,6 +211,15 @@ index 257c94f7c1cb00c9a91ab82e311dfd8eca29c538..fdece7161a741709cee66cc297dc203e
              return false;
          }
          thread.start(); // Paper - start console thread after MinecraftServer.console & PaperConfig are initialized
+@@ -243,7 +243,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         super.setPlayerIdleTimeout((Integer) dedicatedserverproperties.playerIdleTimeout.get());
+         this.setEnforceWhitelist(dedicatedserverproperties.enforceWhitelist);
+         // this.worldData.setGameType(dedicatedserverproperties.gamemode); // CraftBukkit - moved to world loading
+-        DedicatedServer.LOGGER.info("Default game type: {}", dedicatedserverproperties.gamemode);
++        DedicatedServer.LOGGER.info("기본 게임 모드: {}", dedicatedserverproperties.gamemode);
+         // Paper start - Unix domain socket support
+         java.net.SocketAddress bindAddress;
+         if (this.getLocalIp().startsWith("unix:")) {
 @@ -272,14 +272,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          // Paper end
  
@@ -192,6 +239,39 @@ index 257c94f7c1cb00c9a91ab82e311dfd8eca29c538..fdece7161a741709cee66cc297dc203e
              return false;
          }
  
+@@ -290,17 +290,17 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         // CraftBukkit end
+ 
+         if (!this.usesAuthentication()) {
+-            DedicatedServer.LOGGER.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
+-            DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
++            DedicatedServer.LOGGER.warn("**** 서버가 오프라인/비보안 모드에서 실행 중입니다!");
++            DedicatedServer.LOGGER.warn("서버가 유저닉네임 인증 패스합니다.");
+             // Spigot start
+             if (org.spigotmc.SpigotConfig.bungee) {
+-                DedicatedServer.LOGGER.warn("Whilst this makes it possible to use BungeeCord, unless access to your server is properly restricted, it also opens up the ability for hackers to connect with any username they choose.");
+-                DedicatedServer.LOGGER.warn("Please see http://www.spigotmc.org/wiki/firewall-guide/ for further information.");
++                DedicatedServer.LOGGER.warn("번지코드를 위한것이라면, 해커들이 자신이 원하는 닉네임으로 접속할 수 없게 방화벽을 구축해주세요.");
++                DedicatedServer.LOGGER.warn("http://www.spigotmc.org/wiki/firewall-guide/ 에서 자세한 정보를 알수 있어요.");
+             } else {
+-                DedicatedServer.LOGGER.warn("While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.");
++                DedicatedServer.LOGGER.warn("인터넷 없이 실행할수있게 해주지만, 해커들이 자신이 원하는 닉네임으로 접속할 수 있어요.");
+             }
+             // Spigot end
+-            DedicatedServer.LOGGER.warn("To change this, set \"online-mode\" to \"true\" in the server.properties file.");
++            DedicatedServer.LOGGER.warn("바꾸려면, \"online-mode\"을 \"true\"로 server.properties파일 안에서 바꿔주세요.");
+         }
+ 
+ 
+@@ -312,7 +312,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+ 
+             SkullBlockEntity.setup(this.getProfileCache(), this.getSessionService(), this);
+             GameProfileCache.setUsesAuthentication(this.usesAuthentication());
+-            DedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getLevelIdName());
++            DedicatedServer.LOGGER.info("Level 준비 중.. \"{}\"", this.getLevelIdName());
+             this.loadLevel(storageSource.getLevelId()); // CraftBukkit
+             long j = Util.getNanos() - i;
+             String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
 @@ -323,12 +323,12 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              }
  
@@ -216,6 +296,46 @@ index 257c94f7c1cb00c9a91ab82e311dfd8eca29c538..fdece7161a741709cee66cc297dc203e
              }
  
              return true;
+diff --git a/src/main/java/net/minecraft/server/level/progress/LoggerChunkProgressListener.java b/src/main/java/net/minecraft/server/level/progress/LoggerChunkProgressListener.java
+index 419e1c4db73631de3d65d8a0e7d5eb080b2e3935..52f8327d4826bde8ba1181fa8877b493693037d8 100644
+--- a/src/main/java/net/minecraft/server/level/progress/LoggerChunkProgressListener.java
++++ b/src/main/java/net/minecraft/server/level/progress/LoggerChunkProgressListener.java
+@@ -43,7 +43,7 @@ public class LoggerChunkProgressListener implements ChunkProgressListener {
+         int i = this.getProgress();
+         if (Util.getMillis() > this.nextTickTime) {
+             this.nextTickTime += 500L;
+-            LOGGER.info((new TranslatableComponent("menu.preparingSpawn", Mth.clamp(i, 0, 100))).getString());
++            LOGGER.info("스폰 지역 준비 중:" + Mth.clamp(i, 0, 100));
+         }
+ 
+     }
+@@ -54,7 +54,7 @@ public class LoggerChunkProgressListener implements ChunkProgressListener {
+ 
+     @Override
+     public void stop() {
+-        LOGGER.info("Time elapsed: {} ms", (long)(Util.getMillis() - this.startTime));
++        LOGGER.info("걸린 시간 : {} ms", (long)(Util.getMillis() - this.startTime));
+         this.nextTickTime = Long.MAX_VALUE;
+     }
+ 
+diff --git a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
+index 058fb3696c7ece4a7b6971886b1760b26add733b..5998bc849b0f4bc8f0f51dc7c016f1cd8078e6aa 100644
+--- a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
++++ b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
+@@ -97,11 +97,11 @@ public class ServerConnectionListener {
+                 oclass = EpollServerSocketChannel.class;
+                 }
+                 lazyinitvar = ServerConnectionListener.SERVER_EPOLL_EVENT_GROUP;
+-                ServerConnectionListener.LOGGER.info("Using epoll channel type");
++                ServerConnectionListener.LOGGER.info("Epoll 채널 타입 사용 중..");
+             } else {
+                 oclass = NioServerSocketChannel.class;
+                 lazyinitvar = ServerConnectionListener.SERVER_EVENT_GROUP;
+-                ServerConnectionListener.LOGGER.info("Using default channel type");
++                ServerConnectionListener.LOGGER.info("기본 채널 타입 사용 중..");
+             }
+ 
+             // Paper start - indicate Velocity natives in use
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 index befcb501b4b1b6330bf3cd53e00e30b01efade6f..d03f627b2449643ae1db1ee578ef9635f9b10ac4 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
@@ -260,6 +380,79 @@ index 188c68d4ae46bc05c6d9c901b5c6ab883fa05ea4..27037ef6531e290de45f7921db766673
      }
  
      public void updateEntireScoreboard(ServerScoreboard scoreboard, ServerPlayer player) {
+diff --git a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
+index 7ef0075cc16613709e145714204a728d8d8dd82b..664da78f7bec679054598200cd479bfc5b079573 100644
+--- a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
++++ b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
+@@ -79,7 +79,7 @@ public class RecipeManager extends SimpleJsonResourceReloadListener {
+             return entry1.getValue(); // CraftBukkit // Paper - decompile fix - *shrugs internally* // todo: is this needed anymore?
+         }));
+         this.byName = Maps.newHashMap(builder.build()); // CraftBukkit
+-        RecipeManager.LOGGER.info("Loaded {} recipes", map1.size());
++        RecipeManager.LOGGER.info("{}개의 레시피 로드 됨.", map1.size());
+     }
+ 
+     // CraftBukkit start
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 24d96dec9b115e03bb9ee04257e75e1025d0a3a1..8fe8b428e243c21906111c9e7944371654197e78 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -1084,10 +1084,10 @@ public final class CraftServer implements Server {
+         try {
+             perms = (Map<String, Map<String, Object>>) this.yaml.load(stream);
+         } catch (MarkedYAMLException ex) {
+-            this.getLogger().log(Level.WARNING, "Server permissions file " + file + " is not valid YAML: " + ex.toString());
++            // this.getLogger().log(Level.WARNING, "Server permissions file " + file + " is not valid YAML: " + ex.toString()); KPaper- Ignore Permission Log
+             return;
+         } catch (Throwable ex) {
+-            this.getLogger().log(Level.WARNING, "Server permissions file " + file + " is not valid YAML.", ex);
++            // this.getLogger().log(Level.WARNING, "Server permissions file " + file + " is not valid YAML.", ex); KPaper- Ignore Permission Log
+             return;
+         } finally {
+             try {
+@@ -1096,7 +1096,7 @@ public final class CraftServer implements Server {
+         }
+ 
+         if (perms == null) {
+-            this.getLogger().log(Level.INFO, "Server permissions file " + file + " is empty, ignoring it");
++            // this.getLogger().log(Level.INFO, "Server permissions file " + file + " is empty, ignoring it"); KPaper- Ignore Permission Log
+             return;
+         }
+ 
+diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
+index fbe68bd4739d9a0e7d9bc4c3d5ba8ecfd2d13954..83abe9b52d6c6b7cd339979a8916ce7725c42503 100644
+--- a/src/main/java/org/bukkit/craftbukkit/Main.java
++++ b/src/main/java/org/bukkit/craftbukkit/Main.java
+@@ -219,7 +219,7 @@ public class Main {
+ 
+             float javaVersion = Float.parseFloat(System.getProperty("java.class.version"));
+             if (javaVersion < 61.0) {
+-                System.err.println("Unsupported Java detected (" + javaVersion + "). This version of Minecraft requires at least Java 17. Check your Java version with the command 'java -version'.");
++                System.err.println("미지원 자바 버전 발견 (" + javaVersion + "). 이 버전의 마인크래프트는 자바 17 이상이 필요합니다.");
+                 return;
+             }
+ 
+@@ -276,16 +276,16 @@ public class Main {
+                 java.lang.management.RuntimeMXBean runtimeMX = java.lang.management.ManagementFactory.getRuntimeMXBean();
+                 java.lang.management.OperatingSystemMXBean osMX = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
+                 if (runtimeMX != null && osMX != null) {
+-                    String javaInfo = "Java " + runtimeMX.getSpecVersion() + " (" + runtimeMX.getVmName() + " " + runtimeMX.getVmVersion() + ")";
+-                    String osInfo = "Host: " + osMX.getName() + " " + osMX.getVersion() + " (" + osMX.getArch() + ")";
++                    String javaInfo = "자바 " + runtimeMX.getSpecVersion() + " (" + runtimeMX.getVmName() + " " + runtimeMX.getVmVersion() + ")";
++                    String osInfo = "호스트: " + osMX.getName() + " " + osMX.getVersion() + " (" + osMX.getArch() + ")";
+ 
+-                    System.out.println("System Info: " + javaInfo + " " + osInfo);
++                    System.out.println("시스템 정보: " + javaInfo + " " + osInfo);
+                 } else {
+                     System.out.println("Unable to read system info");
+                 }
+                 // Paper end
+                 System.setProperty( "library.jansi.version", "Paper" ); // Paper - set meaningless jansi version to prevent git builds from crashing on Windows
+-                System.out.println("Loading libraries, please wait...");
++                System.out.println("라이브러리 로딩 중.. 잠시 기다려 주세요.");
+                 net.minecraft.server.Main.main(options);
+             } catch (Throwable t) {
+                 t.printStackTrace();
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
 index d509187ca63963fdd7f1a44d89d2aa1a1b1ce3bd..207a361b6ee3dab1a5aa3d5bdd0b47b75f47e2f8 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
