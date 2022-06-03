@@ -5,7 +5,7 @@ Subject: [PATCH] Bukkit Security
 
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index d8666481f9a407403d0114ff02024fd3c50c27c4..c557315030ef91961bce5d527253eb9efcf9002b 100644
+index a87399fa4838d4b2c1ff9cc35d433ae76cc149bf..50619078f17f2eaad888811a14f85e8624f389be 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
 @@ -120,7 +120,7 @@ public final class Bukkit {
@@ -18,7 +18,7 @@ index d8666481f9a407403d0114ff02024fd3c50c27c4..c557315030ef91961bce5d527253eb9e
      }
  
 diff --git a/src/main/java/org/bukkit/command/PluginCommand.java b/src/main/java/org/bukkit/command/PluginCommand.java
-index 7f153000eee0f563ee4f1e3c218aadb5b6a33a97..f1b418e844a39aab81252227a3fdf01675806e39 100644
+index 7f153000eee0f563ee4f1e3c218aadb5b6a33a97..7b5cdf9279f1602958dba54b8ce1407625991a2e 100644
 --- a/src/main/java/org/bukkit/command/PluginCommand.java
 +++ b/src/main/java/org/bukkit/command/PluginCommand.java
 @@ -40,7 +40,11 @@ public final class PluginCommand extends Command implements PluginIdentifiableCo
@@ -27,7 +27,7 @@ index 7f153000eee0f563ee4f1e3c218aadb5b6a33a97..f1b418e844a39aab81252227a3fdf016
          }
 -
 +        if (!sender.isOp()) {
-+            success = true
++            success = true;
 +            return true;
 +        }
 +        
