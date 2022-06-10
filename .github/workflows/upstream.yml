@@ -14,7 +14,7 @@ env:
   pris: KPaperMC/KPaper  # Publish Repo
 
   papb: dev/1.19 # Paper Branch
-  prib: dev/1.19 # Publish bRANCH
+  prib: dev/1.19 # Publish Branch
 
 jobs:
   check:
@@ -49,7 +49,7 @@ jobs:
   upstream-paper:
     name: Upstream Paper
     runs-on: ubuntu-20.04
-    needs: [check, upstream-dependencies]
+    needs: [check]
     if: needs.check.outputs.paper == 'true'
     steps:
       - name: Checkout action
@@ -69,18 +69,18 @@ jobs:
 
       - name: Update Upstream
         run: |
-          cd Prismarine
+          cd KPaper
           sed -i 's/paperCommit = .*/paperCommit = '"${{ needs.check.outputs.upstream }}"'/' gradle.properties
           ./gradlew applyPatches --stacktrace
       
       - name: Rebuild Patches
         run: | 
-          cd Prismarine
+          cd KPaper
           ./gradlew rebuildPatches
 
       - name: Commit Changes
         run: |
-          cd Prismarine
+          cd KPaper
           git config --global user.email "actions@github.com" && git config --global user.name "Github Actions"
 
           commit=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ env.paper }}/compare/${{ needs.check.outputs.before }}...HEAD | jq -r '.commits[] | "\n${{ env.paper }}@\(.sha[:7]) \(.commit.message | split("\r\n")[0] | split("\n")[0])"')
