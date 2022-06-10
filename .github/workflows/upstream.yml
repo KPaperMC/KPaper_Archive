@@ -38,7 +38,7 @@ jobs:
         id: check-paper
         run: |
           upstream=$(git ls-remote https://github.com/${{ env.paper }} | grep ${{ env.papb }} | cut -f 1)
-          current=$(cat KPaper/gradle.properties | grep paperRef | sed 's/paperRef= //')
+          current=$(cat KPaper/gradle.properties | grep paperRef | sed 's/paperRef=//')
           if [ "$current" != "$upstream" ]; then paper=true; else paper=false; fi
           echo "::set-output name=paper::$paper"
           echo "::set-output name=before::$current"
