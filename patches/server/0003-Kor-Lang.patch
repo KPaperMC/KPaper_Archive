@@ -18,7 +18,7 @@ index 0a843e0afbcb1af8e2641515eb244b791b819b8c..d4cff195cdbb18c52b952334d07db0b3
              }
  
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index c7ff70165b442ca7c29fdcfe1d2d79aa24c12b3e..2e830ecde273c9189092dca4d4410641dbb6ac89 100644
+index 6dbf836aedb47463b8c423b80d0c433bf3d3f9c2..c46970ce4f87eea3776063659da21b019483b327 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -426,7 +426,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -169,7 +169,7 @@ index c7ff70165b442ca7c29fdcfe1d2d79aa24c12b3e..2e830ecde273c9189092dca4d4410641
                  }
              }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index afc16bd5a2056d1ee8ce290ec1a6f67c0ac9aedb..af3b298b2012b696f214c77d8a8bb2d6bffe89d4 100644
+index aea18838a17fc52e1bf8cd84cd185565e6e2246d..78823d3172cdae72489ba48d9531882be8dbe70f 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -179,9 +179,9 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -193,7 +193,7 @@ index afc16bd5a2056d1ee8ce290ec1a6f67c0ac9aedb..af3b298b2012b696f214c77d8a8bb2d6
          DedicatedServerProperties dedicatedserverproperties = this.settings.getProperties();
  
          if (this.isSingleplayer()) {
-@@ -232,7 +232,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -233,7 +233,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          super.setPlayerIdleTimeout((Integer) dedicatedserverproperties.playerIdleTimeout.get());
          this.setEnforceWhitelist(dedicatedserverproperties.enforceWhitelist);
          // this.worldData.setGameType(dedicatedserverproperties.gamemode); // CraftBukkit - moved to world loading
@@ -202,7 +202,7 @@ index afc16bd5a2056d1ee8ce290ec1a6f67c0ac9aedb..af3b298b2012b696f214c77d8a8bb2d6
          // Paper start - Unix domain socket support
          java.net.SocketAddress bindAddress;
          if (this.getLocalIp().startsWith("unix:")) {
-@@ -261,14 +261,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -262,14 +262,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          // Paper end
  
          this.initializeKeyPair();
@@ -221,7 +221,7 @@ index afc16bd5a2056d1ee8ce290ec1a6f67c0ac9aedb..af3b298b2012b696f214c77d8a8bb2d6
              return false;
          }
  
-@@ -279,17 +279,17 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -280,17 +280,17 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          // CraftBukkit end
  
          if (!this.usesAuthentication()) {
@@ -245,7 +245,7 @@ index afc16bd5a2056d1ee8ce290ec1a6f67c0ac9aedb..af3b298b2012b696f214c77d8a8bb2d6
          }
  
  
-@@ -301,7 +301,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -302,7 +302,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
  
              SkullBlockEntity.setup(this.services, this);
              GameProfileCache.setUsesAuthentication(this.usesAuthentication());
@@ -254,7 +254,7 @@ index afc16bd5a2056d1ee8ce290ec1a6f67c0ac9aedb..af3b298b2012b696f214c77d8a8bb2d6
              this.loadLevel(storageSource.getLevelId()); // CraftBukkit
              long j = Util.getNanos() - i;
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
-@@ -312,12 +312,12 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -313,12 +313,12 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              }
  
              if (dedicatedserverproperties.enableQuery) {
@@ -269,7 +269,7 @@ index afc16bd5a2056d1ee8ce290ec1a6f67c0ac9aedb..af3b298b2012b696f214c77d8a8bb2d6
                  this.rconThread = RconThread.create(this);
                  this.remoteConsole = new org.bukkit.craftbukkit.command.CraftRemoteConsoleCommandSender(this.rconConsoleSource); // CraftBukkit
              }
-@@ -334,7 +334,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -335,7 +335,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              Items.AIR.fillItemCategory(CreativeModeTab.TAB_SEARCH, NonNullList.create());
              if (dedicatedserverproperties.enableJmxMonitoring) {
                  MinecraftServerStatistics.registerJmxMonitoring(this);
@@ -319,7 +319,7 @@ index c2d7f0ca042882e1bf76f150e9c9be9044ef887c..433098c6631930d336b3c537648a6cc0
  
              // Paper start - indicate Velocity natives in use
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 5f46bdcb109ec4af7e1241a278737b3dc41299f5..f02ea9c6a853099282a3857d2d683fc01031eb5e 100644
+index 89f8690848db712f382d1a1e5b75053262d991ac..1803c5681eabdb5fa5b3e5eb73914215c33ebd95 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -123,7 +123,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
@@ -341,12 +341,12 @@ index 5f46bdcb109ec4af7e1241a278737b3dc41299f5..f02ea9c6a853099282a3857d2d683fc0
  
      public String getUserName() {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 755fbc6213096de1e5c071d4268115f46e364d40..dd604e9890cfa6005677d135710430cf9120963c 100644
+index 20cdfdb3b9351f74e89bc45b3ab972384165659a..2df92570c78bb42dd456a733eb3fdbed5bae3435 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -275,7 +275,7 @@ public abstract class PlayerList {
          // Spigot - view distance
-         playerconnection.send(new ClientboundLoginPacket(player.getId(), worlddata.isHardcore(), player.gameMode.getGameModeForPlayer(), player.gameMode.getPreviousGameModeForPlayer(), this.server.levelKeys(), this.registryHolder, worldserver1.dimensionTypeId(), worldserver1.dimension(), BiomeManager.obfuscateSeed(worldserver1.getSeed()), this.getMaxPlayers(), worldserver1.spigotConfig.viewDistance, worldserver1.spigotConfig.simulationDistance, flag1, !flag, worldserver1.isDebug(), worldserver1.isFlat(), player.getLastDeathLocation()));
+         playerconnection.send(new ClientboundLoginPacket(player.getId(), worlddata.isHardcore(), player.gameMode.getGameModeForPlayer(), player.gameMode.getPreviousGameModeForPlayer(), this.server.levelKeys(), this.registryHolder, worldserver1.dimensionTypeId(), worldserver1.dimension(), BiomeManager.obfuscateSeed(worldserver1.getSeed()), this.getMaxPlayers(), worldserver1.getChunkSource().chunkMap.playerChunkManager.getTargetSendDistance(), worldserver1.getChunkSource().chunkMap.playerChunkManager.getTargetTickViewDistance(), flag1, !flag, worldserver1.isDebug(), worldserver1.isFlat(), player.getLastDeathLocation())); // Paper - replace old player chunk management
          player.getBukkitEntity().sendSupportedChannels(); // CraftBukkit
 -        playerconnection.send(new ClientboundCustomPayloadPacket(ClientboundCustomPayloadPacket.BRAND, (new FriendlyByteBuf(Unpooled.buffer())).writeUtf(this.getServer().getServerModName())));
 +        playerconnection.send(new ClientboundCustomPayloadPacket(ClientboundCustomPayloadPacket.BRAND, (new FriendlyByteBuf(Unpooled.buffer())).writeUtf("§c§lK§b§lP§6§la§e§lp§d§le§a§lr§r")));
@@ -376,7 +376,7 @@ index 4872f70977e73c889fe6e2339d00ebc64459613d..5bf1d67a9387f652b9805799782d1893
  
      // CraftBukkit start
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 5f41c78d73bbb3e69d19ed4599bb75fb38a610c9..0f11df9481bd0438d14fcc57513f5044d26707a7 100644
+index a4067e3c000c845e8c0849346978d2d3f1c81d92..a172a435b409bf03153875b50aeff673a6c26d4d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1077,10 +1077,10 @@ public final class CraftServer implements Server {
