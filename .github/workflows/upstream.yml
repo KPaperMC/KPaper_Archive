@@ -14,7 +14,7 @@ env:
   pris: KPaperMC/KPaper  # Publish Repo
 
   papb: dev/1.19 # Paper Branch
-  prib: dev/1.19 # Publish Branch
+  prib: main # Publish Branch
 
 jobs:
   check:
@@ -38,7 +38,7 @@ jobs:
         id: check-paper
         run: |
           upstream=$(git ls-remote https://github.com/${{ env.paper }} | grep ${{ env.papb }} | cut -f 1)
-          current=$(cat KPaper/gradle.properties | grep paperCommit | sed 's/paperCommit = //')
+          current=$(cat KPaper/gradle.properties | grep paperRef | sed 's/paperCommit = //')
           if [ "$current" != "$upstream" ]; then paper=true; else paper=false; fi
           echo "::set-output name=paper::$paper"
           echo "::set-output name=before::$current"
