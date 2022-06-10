@@ -70,7 +70,7 @@ jobs:
       - name: Update Upstream
         run: |
           cd KPaper
-          sed -i 's/paperRef = .*/paperRef='"${{ needs.check.outputs.upstream }}"'/' gradle.properties
+          sed -i 's/paperRef=.*/paperRef='"${{ needs.check.outputs.upstream }}"'/' gradle.properties
           ./gradlew applyPatches --stacktrace
       
       - name: Rebuild Patches
