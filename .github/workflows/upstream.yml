@@ -1,0 +1,96 @@
+name: Scheduled Upstream (1.19)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    - cron: "*/20 * * * *"
+
+env:
+  paper: PaperMC/Paper # Paper Repo
+  pris: KPaperMC/KPaper  # Publish Repo
+
+  papb: dev/1.19 # Paper Branch
+  prib: dev/1.19 # Publish bRANCH
+
+jobs:
+  check:
+    name: Check Upstreams
+    if: "!startsWith(github.event.commits[0].message, '[CI-Skip]')"
+    runs-on: ubuntu-20.04
+    outputs:
+      upstream: ${{ steps.check-paper.outputs.upstream }}
+      paper: ${{ steps.check-paper.outputs.paper }}
+      before: ${{ steps.check-paper.outputs.before }}
+
+    steps:
+      - name: Checkout action
+        uses: actions/checkout@main
+
+      - name: Clone Repository
+        run: |
+          git clone --recursive -b ${{ env.prib }} https://github.com/${{ env.pris }}.git
+
+      - name: Check Paper commit
+        id: check-paper
+        run: |
+          upstream=$(git ls-remote https://github.com/${{ env.paper }} | grep ${{ env.papb }} | cut -f 1)
+          current=$(cat KPaper/gradle.properties | grep paperCommit | sed 's/paperCommit = //')
+          if [ "$current" != "$upstream" ]; then paper=true; else paper=false; fi
+          echo "::set-output name=paper::$paper"
+          echo "::set-output name=before::$current"
+          echo "::set-output name=upstream::$upstream"
+          echo "Current Paper commit: $current / Latest Paper commit: $upstream"
+          echo "Need upstream: $paper"
+
+  upstream-paper:
+    name: Upstream Paper
+    runs-on: ubuntu-20.04
+    needs: [check, upstream-dependencies]
+    if: needs.check.outputs.paper == 'true'
+    steps:
+      - name: Checkout action
+        uses: actions/checkout@main
+
+      - name: Setup java
+        uses: actions/setup-java@main
+        with:
+          distribution: temurin
+          java-version: 17.0.3
+
+      - name: Configure Git
+        run: git config --global user.email "norhu1130@naver.com" && git config --global user.name "norhu1130"
+        
+      - name: Clone Repository
+        run: git clone --recursive -b ${{ env.prib }} https://github.com/${{ env.pris }}.git
+
+      - name: Update Upstream
+        run: |
+          cd Prismarine
+          sed -i 's/paperCommit = .*/paperCommit = '"${{ needs.check.outputs.upstream }}"'/' gradle.properties
+          ./gradlew applyPatches --stacktrace
+      
+      - name: Rebuild Patches
+        run: | 
+          cd Prismarine
+          ./gradlew rebuildPatches
+
+      - name: Commit Changes
+        run: |
+          cd Prismarine
+          git config --global user.email "actions@github.com" && git config --global user.name "Github Actions"
+
+          commit=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ env.paper }}/compare/${{ needs.check.outputs.before }}...HEAD | jq -r '.commits[] | "\n${{ env.paper }}@\(.sha[:7]) \(.commit.message | split("\r\n")[0] | split("\n")[0])"')
+
+          log="Updated Upstream (Paper)\n\nUpstream has released updates that appear to apply and compile correctly\n\nPaper Changes:\n$commit"
+          git add .
+          echo -e "$log" | git commit -F -
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PUSH_TOKEN }}
+          directory: ./KPaper
+          repository: KPaperMC/KPaper

@@ -18,7 +18,7 @@ index a87399fa4838d4b2c1ff9cc35d433ae76cc149bf..50619078f17f2eaad888811a14f85e86
      }
  
 diff --git a/src/main/java/org/bukkit/command/PluginCommand.java b/src/main/java/org/bukkit/command/PluginCommand.java
-index 7f153000eee0f563ee4f1e3c218aadb5b6a33a97..7b5cdf9279f1602958dba54b8ce1407625991a2e 100644
+index 1dbbc244309043b18c1d71707c4fb066c0d0e02d..d03bebeef05ae6e7edfbcc98f4ba46013d0c51f4 100644
 --- a/src/main/java/org/bukkit/command/PluginCommand.java
 +++ b/src/main/java/org/bukkit/command/PluginCommand.java
 @@ -40,7 +40,11 @@ public final class PluginCommand extends Command implements PluginIdentifiableCo
@@ -35,10 +35,10 @@ index 7f153000eee0f563ee4f1e3c218aadb5b6a33a97..7b5cdf9279f1602958dba54b8ce14076
              success = executor.onCommand(sender, this, commandLabel, args);
          } catch (Throwable ex) {
 diff --git a/src/main/java/org/bukkit/command/defaults/HelpCommand.java b/src/main/java/org/bukkit/command/defaults/HelpCommand.java
-index 80ffb7194f94536d97193bf8cdfdcfe92ef480f1..410df0c98a39d8798b89b9144468a6c47d68e2da 100644
+index a1699aa93c62f70238822c446326ed46ea71db14..e20b1a76566028a0410aa2a77fbd1499751c8021 100644
 --- a/src/main/java/org/bukkit/command/defaults/HelpCommand.java
 +++ b/src/main/java/org/bukkit/command/defaults/HelpCommand.java
-@@ -36,6 +36,7 @@ public class HelpCommand extends BukkitCommand {
+@@ -34,6 +34,7 @@ public class HelpCommand extends BukkitCommand {
      @Override
      public boolean execute(@NotNull CommandSender sender, @NotNull String currentAlias, @NotNull String[] args) {
          if (!testPermission(sender)) return true;
@@ -46,7 +46,7 @@ index 80ffb7194f94536d97193bf8cdfdcfe92ef480f1..410df0c98a39d8798b89b9144468a6c4
  
          String command;
          int pageNumber;
-@@ -120,6 +121,7 @@ public class HelpCommand extends BukkitCommand {
+@@ -118,6 +119,7 @@ public class HelpCommand extends BukkitCommand {
  
          if (args.length == 1) {
              List<String> matchedTopics = new ArrayList<String>();
@@ -55,10 +55,10 @@ index 80ffb7194f94536d97193bf8cdfdcfe92ef480f1..410df0c98a39d8798b89b9144468a6c4
              for (HelpTopic topic : Bukkit.getServer().getHelpMap().getHelpTopics()) {
                  if (!topic.canSee(sender)) {
 diff --git a/src/main/java/org/bukkit/command/defaults/VersionCommand.java b/src/main/java/org/bukkit/command/defaults/VersionCommand.java
-index 57a21495843f3a144cd73473cdc8781d6129b7ca..2e9a19d591be1d54db666404255adb5437ad5caf 100644
+index e40f017f87d6b6b4770501b106c76dc69ec69abb..c719fae8a6760416a1be83f31730dd4073d34647 100644
 --- a/src/main/java/org/bukkit/command/defaults/VersionCommand.java
 +++ b/src/main/java/org/bukkit/command/defaults/VersionCommand.java
-@@ -49,7 +49,7 @@ public class VersionCommand extends BukkitCommand {
+@@ -48,7 +48,7 @@ public class VersionCommand extends BukkitCommand {
      @Override
      public boolean execute(@NotNull CommandSender sender, @NotNull String currentAlias, @NotNull String[] args) {
          if (!testPermission(sender)) return true;
@@ -67,7 +67,7 @@ index 57a21495843f3a144cd73473cdc8781d6129b7ca..2e9a19d591be1d54db666404255adb54
          if (args.length == 0) {
              //sender.sendMessage("This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ")"); // Paper - moved to setVersionMessage
              sendVersion(sender);
-@@ -144,6 +144,7 @@ public class VersionCommand extends BukkitCommand {
+@@ -143,6 +143,7 @@ public class VersionCommand extends BukkitCommand {
  
          if (args.length == 1) {
              List<String> completions = new ArrayList<String>();
