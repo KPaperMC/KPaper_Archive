@@ -18,7 +18,7 @@ index 0a843e0afbcb1af8e2641515eb244b791b819b8c..d4cff195cdbb18c52b952334d07db0b3
              }
  
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 6dbf836aedb47463b8c423b80d0c433bf3d3f9c2..c46970ce4f87eea3776063659da21b019483b327 100644
+index 1cca9584d5badbb3e49d950dce901456c8f2c58e..1af1eaa7a45b20088ac8cc279e5f4358a473ccef 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -426,7 +426,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -319,7 +319,7 @@ index c2d7f0ca042882e1bf76f150e9c9be9044ef887c..433098c6631930d336b3c537648a6cc0
  
              // Paper start - indicate Velocity natives in use
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 89f8690848db712f382d1a1e5b75053262d991ac..1803c5681eabdb5fa5b3e5eb73914215c33ebd95 100644
+index 039b47e19d672ec9066c41fcc6342523992bf7b6..19096f5ab4017c8fdd0ccdb41c7abdbc819fac07 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -123,7 +123,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
@@ -402,10 +402,10 @@ index a4067e3c000c845e8c0849346978d2d3f1c81d92..a172a435b409bf03153875b50aeff673
          }
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 344d93f1d7f25a3f26064469e78dd698af66dc0d..e42a340ea156682bafd29fde372df7b3e07afd5b 100644
+index fbd604602024522bdd73aa1bde6fe2ccec63e442..4391c31687e552b2b0901e56b73a308f592a2b9d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -219,7 +219,7 @@ public class Main {
+@@ -224,7 +224,7 @@ public class Main {
  
              float javaVersion = Float.parseFloat(System.getProperty("java.class.version"));
              if (javaVersion < 61.0) {
@@ -414,7 +414,7 @@ index 344d93f1d7f25a3f26064469e78dd698af66dc0d..e42a340ea156682bafd29fde372df7b3
                  return;
              }
  
-@@ -276,16 +276,16 @@ public class Main {
+@@ -281,16 +281,16 @@ public class Main {
                  java.lang.management.RuntimeMXBean runtimeMX = java.lang.management.ManagementFactory.getRuntimeMXBean();
                  java.lang.management.OperatingSystemMXBean osMX = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
                  if (runtimeMX != null && osMX != null) {
