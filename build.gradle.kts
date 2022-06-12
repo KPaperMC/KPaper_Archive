@@ -5,21 +5,8 @@ plugins {
     `maven-publish`
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
     //id("io.papermc.paperweight.patcher") version "1.3.6"
-    //id("tech.norhu1130.kpaperweight.patcher") version "1.3.7-LOCAL-SNAPSHOT"
-    //id("com.github.KPaperMC.paperweight.patcher") version "1.3.7-SNAPSHOT"
+    id("tech.norhu1130.kpaperweight.patcher") version "1.3.7-LOCAL-SNAPSHOT"
 }
-
-buildscript {
-    repositories {
-        maven("https://jitpack.io")
-    }
-
-    dependencies {
-        classpath("com.github.KPaperMC.paperweight:paperweight-patcher:1.3.7.1-SNAPSHOT")
-    }
-}
-
-apply(plugin = "com.github.KPaperMC.paperweight.patcher")
 
 val paperMavenPublicUrl = "https://papermc.io/repo/repository/maven-public/"
 
