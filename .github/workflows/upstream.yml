@@ -13,7 +13,7 @@ env:
   paper: PaperMC/Paper # Paper Repo
   pris: KPaperMC/KPaper  # Publish Repo
 
-  papb: dev/1.19 # Paper Branch
+  papb: master # Paper Branch
   prib: main # Publish Branch
 
 jobs:
