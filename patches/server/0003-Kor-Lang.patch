@@ -18,7 +18,7 @@ index 0a843e0afbcb1af8e2641515eb244b791b819b8c..d4cff195cdbb18c52b952334d07db0b3
              }
  
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 1cca9584d5badbb3e49d950dce901456c8f2c58e..1af1eaa7a45b20088ac8cc279e5f4358a473ccef 100644
+index b085ba940c47ae36137cc0279323a8e48f102eee..342d3b8c906debeb0c9559de0cbca02e7b56e43f 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -426,7 +426,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -159,7 +159,7 @@ index 1cca9584d5badbb3e49d950dce901456c8f2c58e..1af1eaa7a45b20088ac8cc279e5f4358
  
          try {
              this.keyPair = Crypt.generateKeyPair();
-@@ -2087,7 +2087,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2094,7 +2094,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                  String s1 = resourcepackloader.getId();
  
                  if (!dataPackSettings.getDisabled().contains(s1) && !set.contains(s1)) {
