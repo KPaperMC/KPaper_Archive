@@ -37,7 +37,7 @@ jobs:
       - name: Check Paper commit
         id: check-paper
         run: |
-          upstream=$(git ls-remote https://github.com/${{ env.paper }} | grep ${{ env.papb }} | cut -f 1)
+          upstream=$(git ls-remote https://github.com/${{ env.paper }} | grep heads/${{ env.papb }} | cut -f 1)
           current=$(cat KPaper/gradle.properties | grep paperRef | sed 's/paperRef=//')
           if [ "$current" != "$upstream" ]; then paper=true; else paper=false; fi
           echo "::set-output name=paper::$paper"
