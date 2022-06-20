@@ -376,10 +376,10 @@ index 4872f70977e73c889fe6e2339d00ebc64459613d..5bf1d67a9387f652b9805799782d1893
  
      // CraftBukkit start
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index a4067e3c000c845e8c0849346978d2d3f1c81d92..a172a435b409bf03153875b50aeff673a6c26d4d 100644
+index b7b8dfc92f0805c4dce6072a0f25c2259a3ac3f4..ebb52c7febacb462368a820190e3926999c92df8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1077,10 +1077,10 @@ public final class CraftServer implements Server {
+@@ -1084,10 +1084,10 @@ public final class CraftServer implements Server {
          try {
              perms = (Map<String, Map<String, Object>>) this.yaml.load(stream);
          } catch (MarkedYAMLException ex) {
@@ -392,7 +392,7 @@ index a4067e3c000c845e8c0849346978d2d3f1c81d92..a172a435b409bf03153875b50aeff673
              return;
          } finally {
              try {
-@@ -1089,7 +1089,7 @@ public final class CraftServer implements Server {
+@@ -1096,7 +1096,7 @@ public final class CraftServer implements Server {
          }
  
          if (perms == null) {
@@ -402,7 +402,7 @@ index a4067e3c000c845e8c0849346978d2d3f1c81d92..a172a435b409bf03153875b50aeff673
          }
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index fbd604602024522bdd73aa1bde6fe2ccec63e442..4391c31687e552b2b0901e56b73a308f592a2b9d 100644
+index 1b9e91b20dd9a9375a0a2a6a4d7a0bcdce9e7b1a..be5cf76309eb1ab90af91ff473411a18d01cf207 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -224,7 +224,7 @@ public class Main {
