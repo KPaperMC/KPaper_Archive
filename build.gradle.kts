@@ -1,8 +1,11 @@
+import io.papermc.paperweight.tasks.CreatePaperclipJar
+
 plugins {
     java
     `maven-publish`
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
-    id("io.papermc.paperweight.patcher") version "1.3.6"
+    //id("io.papermc.paperweight.patcher") version "1.3.6"
+    id("tech.norhu1130.kpaperweight.patcher") version "1.3.7-LOCAL-SNAPSHOT"
 }
 
 val paperMavenPublicUrl = "https://papermc.io/repo/repository/maven-public/"
@@ -18,7 +21,7 @@ repositories {
 dependencies {
     remapper("net.fabricmc:tiny-remapper:0.8.2:fat")
     decompiler("net.minecraftforge:forgeflower:1.5.498.29")
-    paperclip("com.github.KPaperMC:Paperclip:1825ad41c4")
+    paperclip("com.github.KPaperMC:Paperclip:a53910c536")
 }
 
 allprojects {
