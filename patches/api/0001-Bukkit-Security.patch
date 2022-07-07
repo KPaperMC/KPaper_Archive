@@ -5,7 +5,7 @@ Subject: [PATCH] Bukkit Security
 
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index a87399fa4838d4b2c1ff9cc35d433ae76cc149bf..50619078f17f2eaad888811a14f85e8624f389be 100644
+index 3506a7fa07ee6e53704b1df8d8d2bb08704bfc37..01fabe32781acb979cb72504941d7316171ac795 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
 @@ -120,7 +120,7 @@ public final class Bukkit {
@@ -34,6 +34,18 @@ index 1dbbc244309043b18c1d71707c4fb066c0d0e02d..d03bebeef05ae6e7edfbcc98f4ba4601
          try {
              success = executor.onCommand(sender, this, commandLabel, args);
          } catch (Throwable ex) {
+diff --git a/src/main/java/org/bukkit/command/SimpleCommandMap.java b/src/main/java/org/bukkit/command/SimpleCommandMap.java
+index b8623575b1c1b565560c2dd6438190716845a652..15bbe48fe8c9a3ae8e29da89bcd8082efe3687cd 100644
+--- a/src/main/java/org/bukkit/command/SimpleCommandMap.java
++++ b/src/main/java/org/bukkit/command/SimpleCommandMap.java
+@@ -215,6 +215,7 @@ public class SimpleCommandMap implements CommandMap {
+                 String name = commandEntry.getKey(); // Use the alias, not command name
+ 
+                 if (StringUtil.startsWithIgnoreCase(name, cmdLine)) {
++                    if(name.contains(":")) continue;
+                     completions.add(prefix + name);
+                 }
+             }
 diff --git a/src/main/java/org/bukkit/command/defaults/HelpCommand.java b/src/main/java/org/bukkit/command/defaults/HelpCommand.java
 index a1699aa93c62f70238822c446326ed46ea71db14..e20b1a76566028a0410aa2a77fbd1499751c8021 100644
 --- a/src/main/java/org/bukkit/command/defaults/HelpCommand.java
