@@ -18,7 +18,7 @@ index 0a843e0afbcb1af8e2641515eb244b791b819b8c..d4cff195cdbb18c52b952334d07db0b3
              }
  
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 7b44f386ff310fbb5fc73eec72c9ad11d9df26c7..f3cebc9be8d0c74134d8c2bfd342fbdf24100b05 100644
+index fb138ad4c9bb051f100999077e2843468f6a23f2..8ea1cd333c70707e9e2695a469e04c2816202c39 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -429,7 +429,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -319,10 +319,10 @@ index abcc3266d18f34d160eac87fdea153dce24c60b8..639f5cf718333a0d5126a22dd32777fe
  
              // Paper start - indicate Velocity natives in use
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index c36babd85b7d5ba57c08708d0bbf01e16a70a4b2..74f0684d964ac65b75c0ef770b57fe358cd24dd2 100644
+index 881f6f61015c7f2f28b204467f984dbf8d37d89a..683826db1cf7c6aca746c8fd03ba8780f9788a18 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-@@ -125,7 +125,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -121,7 +121,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
  
      public void disconnect(Component reason) {
          try {
@@ -331,7 +331,7 @@ index c36babd85b7d5ba57c08708d0bbf01e16a70a4b2..74f0684d964ac65b75c0ef770b57fe35
              this.connection.send(new ClientboundLoginDisconnectPacket(reason));
              this.connection.disconnect(reason);
          } catch (Exception exception) {
-@@ -238,7 +238,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -234,7 +234,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
  
      @Override
      public void onDisconnect(Component reason) {
@@ -341,7 +341,7 @@ index c36babd85b7d5ba57c08708d0bbf01e16a70a4b2..74f0684d964ac65b75c0ef770b57fe35
  
      public String getUserName() {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 37d8a797bb590c30bf42ab04128489a9390684d3..a18f9d2294e1b3cd79d6778049c05a950995ab2b 100644
+index 71623c84a5b15023189c14a6bf36e1b08f935fc1..b797b41f88f1d78af403352deddcd51e418c01bc 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -276,7 +276,7 @@ public abstract class PlayerList {
@@ -402,7 +402,7 @@ index 3f69535cde1175ed9445c9fcf970dcca9f12929d..79daa3ba36e50bec649d262c35a81395
          }
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index c55ae77807e0ec3698f0d0443caaf18928b41017..abe0713a790250613e0e3235386b1f8b0811c11d 100644
+index 5b48047242e20c216b110502935763ea433c55cd..e106bb376c0ff0cf3014c436f25fedc1ffa28743 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -224,7 +224,7 @@ public class Main {
